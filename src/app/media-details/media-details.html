@@ -1,0 +1,67 @@
+<div class="details">
+  @if (media) {
+  <div class="details-body">
+    <img [src]="media.poster" [alt]="media.title" />
+    <div>
+      <div class="details-top">
+        <h1 class="details-title">{{ media.title }}</h1>
+        <p class="details-text"><span>⭐</span> {{ media.rating }}</p>
+      </div>
+      <p class="details-text">{{ media.plot }}</p>
+      <p class="details-text">Year: {{ media.year }}</p>
+      <p class="details-text">Rated: {{ media.rated }}</p>
+      <p class="details-text">Released: {{ media.released }}</p>
+      <p class="details-text">🕒 {{ media.runtime }}</p>
+      <p class="details-text">
+        {{ media.writer ? `Written by: ${media.writer}` : `Directed by: ${media.director}` }}
+      </p>
+      <p class="details-text">{{ media.awards }}</p>
+      <div class="genre-container">
+        @for(genre of media.genres; track genre) {
+        <div class="pill">{{ genre }}</div>
+        }
+      </div>
+    </div>
+  </div>
+
+  <div class="details-bottom">
+    <div class="actors">
+      <h2>Actors</h2>
+      @for(actor of media.actors; track actor) {
+      <p>{{ actor }}</p>
+      }
+    </div>
+    <div class="episodes">
+      <h2>Seasons & Episodes</h2>
+      <div class="btns-container">
+        @for(season of seasons; track season) {
+        <button
+          [class.active]="currentSeason == season"
+          class="season-btn"
+          (click)="onChangeSeason(season)"
+        >
+          {{ season }}
+        </button>
+        }
+      </div>
+
+      <div class="ep-container">
+        @for(episode of episodes; track episode.imdbID) {
+        <div class="episode">
+          <h2>#{{ episode.Episode }}</h2>
+          <div class="episode-details">
+            <div class="episode-top">
+              <h3>{{ episode.Title }}</h3>
+              <h3>⭐{{ episode.imdbRating }}</h3>
+            </div>
+            <p>{{ episode.Released }}</p>
+          </div>
+        </div>
+        }
+      </div>
+    </div>
+  </div>
+  } @else {
+  <p>Media doesn't exist!</p>
+  }
+</div>
