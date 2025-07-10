@@ -10,11 +10,11 @@ import {
 } from 'rxjs';
 import { Media } from '../model/media';
 import { AsyncPipe } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { SearchCard } from '../search-card/search-card';
 
 @Component({
     selector: 'media-search',
-    imports: [AsyncPipe, RouterLink],
+    imports: [AsyncPipe, SearchCard],
     templateUrl: './search.html',
     styleUrl: './search.css',
 })
@@ -28,6 +28,8 @@ export class Search implements OnInit {
             debounceTime(400),
             distinctUntilChanged(),
             switchMap((query) => {
+                console.log('went thru');
+
                 if (query) {
                     return this.mediaService.search(query);
                 } else return of([]);

@@ -1,0 +1,23 @@
+@if(media) {
+<a [routerLink]="['/title', media.imdbID]">
+  <div class="card">
+    <img [src]="media.poster" [alt]="media.title" />
+    <div class="card-body">
+      <div class="card-top">
+        <h2 class="card-title">{{ media.title }}</h2>
+        <p class="card-text"><span>⭐</span> {{ media.rating }}</p>
+      </div>
+      <p>{{ media.plot }}</p>
+      <p class="card-text">Runtime: {{ media.runtime }}</p>
+      <p class="card-text">Released: {{ media.released }}</p>
+      <div class="genre-container">
+        @for(genre of media.genres; track genre) {
+        <div class="pill">{{ genre }}</div>
+        }
+      </div>
+    </div>
+  </div>
+</a>
+} @else {
+<h3>Loading...</h3>
+}
