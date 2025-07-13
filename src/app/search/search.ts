@@ -7,6 +7,7 @@ import {
     of,
     Subject,
     switchMap,
+    tap,
 } from 'rxjs';
 import { Media } from '../model/media';
 import { AsyncPipe } from '@angular/common';
@@ -22,18 +23,23 @@ export class Search implements OnInit {
     mediaService = inject(MediaService);
     result$: Observable<Media[]> | undefined;
     query$ = new Subject<string>();
+    loading = false;
 
     ngOnInit(): void {
         this.result$ = this.query$.pipe(
             debounceTime(400),
             distinctUntilChanged(),
+            tap(() => this.loading = true),
             switchMap((query) => {
-                console.log('went thru');
-
                 if (query) {
-                    return this.mediaService.search(query);
-                } else return of([]);
-            })
+                    return this.mediaService.search(query).pipe(
+                        tap(() => this.loading = false)
+                    );
+                } else {
+                    this.loading = false;
+                    return of([]);
+                }
+            }),
         );
     }
 

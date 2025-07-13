@@ -6,6 +6,9 @@
 />
 
 <ul>
+  @if(loading) {
+    <h3>Loading...</h3>
+  }
   @for(media of result$ | async; track media.imdbID) {
   <li>
     <search-card [media]="media" />
