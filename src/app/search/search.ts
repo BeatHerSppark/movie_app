@@ -1,8 +1,11 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, HostListener, inject, OnInit } from '@angular/core';
 import { MediaService } from '../media.service';
 import {
+    BehaviorSubject,
     debounceTime,
     distinctUntilChanged,
+    map,
+    mergeMap,
     Observable,
     of,
     Subject,
@@ -21,29 +24,65 @@ import { SearchCard } from '../search-card/search-card';
 })
 export class Search implements OnInit {
     mediaService = inject(MediaService);
-    result$: Observable<Media[]> | undefined;
+    result$ = new BehaviorSubject<Media[]>([]);
     query$ = new Subject<string>();
+    totalSearchResults$: Observable<number | null> = of(null);
+    queryValue: string = '';
     loading = false;
+    page = 1;
 
     ngOnInit(): void {
-        this.result$ = this.query$.pipe(
-            debounceTime(400),
-            distinctUntilChanged(),
-            tap(() => this.loading = true),
-            switchMap((query) => {
-                if (query) {
-                    return this.mediaService.search(query).pipe(
-                        tap(() => this.loading = false)
-                    );
-                } else {
+        this.query$
+            .pipe(
+                debounceTime(400),
+                distinctUntilChanged(),
+                tap(() => (this.loading = true)),
+                switchMap((query) => {
+                    if (query) {
+                        this.queryValue = query;
+                        this.totalSearchResults$ =
+                            this.mediaService.getTotalSearchResults(query);
+                        return this.mediaService.search(query, this.page);
+                    } else {
+                        this.totalSearchResults$ = of(null);
+                        this.loading = false;
+                        return of([]);
+                    }
+                }),
+                tap((results) => {
+                    this.result$.next(results);
                     this.loading = false;
-                    return of([]);
-                }
-            }),
-        );
+                })
+            )
+            .subscribe();
     }
 
     onSearch(query: string) {
         this.query$.next(query);
+    }
+
+    @HostListener('window:scroll', [])
+    onScrollBottom() {
+        const threshold = 100;
+        const position = window.innerHeight + window.scrollY;
+        const height = document.documentElement.scrollHeight;
+
+        if (position >= height - threshold && !this.loading) {
+            this.loading = true;
+            this.page++;
+
+            this.mediaService
+                .search(this.queryValue, this.page)
+                .pipe(
+                    tap((newResults) => {
+                        this.result$.next([
+                            ...this.result$.value,
+                            ...newResults,
+                        ]);
+                        this.loading = false;
+                    })
+                )
+                .subscribe();
+        }
     }
 }

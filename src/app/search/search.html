@@ -7,9 +7,10 @@
 
 <ul>
   @if(loading) {
-    <h3>Loading...</h3>
-  }
-  @for(media of result$ | async; track media.imdbID) {
+  <h3>Loading...</h3>
+  } @if (totalSearchResults$ | async; as total ) { @if (total != null) {
+  <h3>Total results: {{ total }}</h3>
+  } } @for(media of result$ | async; track media.imdbID) {
   <li>
     <search-card [media]="media" />
   </li>

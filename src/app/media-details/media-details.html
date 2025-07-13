@@ -1,3 +1,6 @@
+@if (loading) {
+<h2>Loading...</h2>
+} @else {
 <div class="details">
   @if (media) {
   <div class="details-body">
@@ -65,3 +68,4 @@
   <p>Media doesn't exist!</p>
   }
 </div>
+}
