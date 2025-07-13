@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Media } from '../model/media';
+import { SearchCardMedia } from '../model/searchCardMedia';
 
 @Component({
     selector: 'search-card',
@@ -9,5 +10,5 @@ import { Media } from '../model/media';
     styleUrl: './search-card.css',
 })
 export class SearchCard {
-    @Input() media: Media | undefined;
+    @Input() media: SearchCardMedia | undefined;
 }

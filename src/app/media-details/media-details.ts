@@ -1,8 +1,9 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { MediaService } from '../media.service';
 import { ActivatedRoute } from '@angular/router';
-import { Episode, Media } from '../model/media';
+import { Media } from '../model/media';
 import { catchError, EMPTY, filter, map, mergeMap, tap } from 'rxjs';
+import { Episode } from '../model/episode';
 
 @Component({
     selector: 'app-media-details',

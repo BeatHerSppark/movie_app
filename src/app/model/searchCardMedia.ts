@@ -1,18 +1,10 @@
-import { Person } from './person';
-
-export interface Media {
+export interface SearchCardMedia {
     imdbID: string;
     title: string;
-    year: string;
-    rated: string;
     released: string;
     runtime: string;
     genres: string[];
-    director: string;
-    writer: string;
-    actors: Person[];
     plot: string;
-    awards: string;
     poster: string;
     rating: string;
     totalSeasons: string;

@@ -15,6 +15,7 @@ import {
 import { Media } from '../model/media';
 import { AsyncPipe } from '@angular/common';
 import { SearchCard } from '../search-card/search-card';
+import { SearchCardMedia } from '../model/searchCardMedia';
 
 @Component({
     selector: 'media-search',
@@ -24,7 +25,7 @@ import { SearchCard } from '../search-card/search-card';
 })
 export class Search implements OnInit {
     mediaService = inject(MediaService);
-    result$ = new BehaviorSubject<Media[]>([]);
+    result$ = new BehaviorSubject<SearchCardMedia[]>([]);
     query$ = new Subject<string>();
     totalSearchResults$: Observable<number | null> = of(null);
     queryValue: string = '';

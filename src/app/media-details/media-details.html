@@ -30,9 +30,17 @@
   <div class="details-bottom">
     <div class="actors">
       <h2>Actors</h2>
-      @for(actor of media.actors; track actor) {
-      <p>{{ actor }}</p>
-      }
+      <div class="actor-container">
+        @for(actor of media.actors; track actor) {
+        <div class="actor">
+          <p>{{ actor.name }}</p>
+          <img
+            [src]="['https://image.tmdb.org/t/p/w185' + actor.image]"
+            alt=""
+          />
+        </div>
+        }
+      </div>
     </div>
     <div class="episodes">
       <h2>Seasons & Episodes</h2>

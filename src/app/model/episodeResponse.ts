@@ -1,4 +1,4 @@
-import { Episode } from './media';
+import { Episode } from './episode';
 
 export interface EpisodeResponse {
     Title: string;
