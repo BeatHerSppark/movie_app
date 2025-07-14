@@ -4,15 +4,12 @@ import {
     BehaviorSubject,
     debounceTime,
     distinctUntilChanged,
-    map,
-    mergeMap,
     Observable,
     of,
     Subject,
     switchMap,
     tap,
 } from 'rxjs';
-import { Media } from '../model/media';
 import { AsyncPipe } from '@angular/common';
 import { SearchCard } from '../search-card/search-card';
 import { SearchCardMedia } from '../model/searchCardMedia';
