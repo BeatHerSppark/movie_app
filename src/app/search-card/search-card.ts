@@ -1,6 +1,5 @@
 import { Component, Input } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { Media } from '../model/media';
 import { SearchCardMedia } from '../model/searchCardMedia';
 
 @Component({
